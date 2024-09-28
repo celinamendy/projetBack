@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -12,8 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('vehicules', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('conducteur_id');
+            $table->string('marque');
+            $table->string('modele');
+            $table->string('immatriculation');
+            $table->integer('nombre_place');
+            $table->string('Assurance_vehicule');
+            $table->string('couleur');
+            $table->string('photo');
             $table->timestamps();
+            $table->foreign('conducteur_id')->references('id')->on('conducteurs')->onDelete('cascade');
+
         });
     }
 

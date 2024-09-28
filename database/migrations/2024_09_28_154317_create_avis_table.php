@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservations', function (Blueprint $table) {
+        Schema::create('avis', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('passager_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('trajet_id');
-            $table->timestamp('date_heure_reservation');
-            $table->enum('statut', ['annuler', 'confirmer']); 
-
+            $table->integer('note'); // Assuming note is an integer rating
+            $table->text('commentaire')->nullable();
+            $table->timestamp('date');
             $table->timestamps();
-            $table->foreign('passager_id')->references('id')->on('passagers')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('trajet_id')->references('id')->on('trajets')->onDelete('cascade');
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservations');
+        Schema::dropIfExists('avis');
     }
 };
