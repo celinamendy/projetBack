@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Vehicule;
-use App\Http\Requests\StoreVehiculesRequest;
-use App\Http\Requests\UpdateVehiculesRequest;
+use Illuminate\Http\Request;
 
 class VehiculesController extends Controller
 {
@@ -25,9 +24,31 @@ class VehiculesController extends Controller
     /**
      * Créer un nouveau véhicule.
      */
-    public function store(StoreVehiculesRequest $request) // Utiliser StoreVehiculeRequest pour la validation
+    public function store(Request $request)
     {
-        $vehicule = Vehicule::create($request->validated());
+        // Validation des données entrantes
+        $request->validate([
+            'marque' => 'required|string|max:255',
+            'modele' => 'required|string|max:255',
+            'couleur' => 'required|string|max:255',
+            'immatriculation' => 'required|string|max:255|unique:vehicules,immatriculation',
+            'conducteur_id' => 'required|exists:conducteurs,id',
+            'nombre_place' => 'required|integer',
+            'assurance_vehicule' => 'required|string|max:255',
+            'photo' => 'nullable|string'
+        ]);
+
+        // Création du véhicule avec toutes les données
+        $vehicule = Vehicule::create([
+            'marque' => $request->marque,
+            'modele' => $request->modele,
+            'couleur' => $request->couleur,
+            'immatriculation' => $request->immatriculation,
+            'conducteur_id' => $request->conducteur_id,
+            'nombre_place' => $request->nombre_place,
+            'assurance_vehicule' => $request->assurance_vehicule,
+            'photo' => $request->photo
+        ]);
 
         return response()->json([
             'status' => true,
@@ -60,7 +81,7 @@ class VehiculesController extends Controller
     /**
      * Mettre à jour un véhicule spécifique.
      */
-    public function update(UpdateVehiculesRequest $request, $id) // Utiliser UpdateVehiculeRequest pour la validation
+    public function update(Request $request, $id)
     {
         $vehicule = Vehicule::find($id);
 
@@ -71,8 +92,22 @@ class VehiculesController extends Controller
             ], 404);
         }
 
+        // Validation des données
+        $request->validate([
+            'marque' => 'sometimes|required|string|max:255',
+            'modele' => 'sometimes|required|string|max:255',
+            'couleur' => 'sometimes|required|string|max:255',
+            'immatriculation' => 'sometimes|required|string|max:255|unique:vehicules,immatriculation,'.$id,
+            'conducteur_id' => 'sometimes|required|exists:conducteurs,id',
+            'nombre_place' => 'sometimes|required|integer',
+            'assurance_vehicule' => 'sometimes|required|string|max:255',
+            'photo' => 'sometimes|nullable|string|max:255'
+        ]);
+
         // Mise à jour des informations
-        $vehicule->update($request->validated());
+        $vehicule->update($request->only([
+            'marque', 'modele', 'couleur', 'immatriculation', 'conducteur_id', 'nombre_place', 'assurance_vehicule', 'photo'
+        ]));
 
         return response()->json([
             'status' => true,

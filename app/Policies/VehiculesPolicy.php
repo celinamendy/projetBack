@@ -11,11 +11,10 @@ class VehiculesPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function create(User $user): bool
-{
-    // Autorise uniquement les utilisateurs ayant le rôle de conducteur
-    return $user->role === 'conducteur';
-}
+    public function viewAny(User $user): bool
+    {
+        //
+    }
 
     /**
      * Determine whether the user can view the model.
