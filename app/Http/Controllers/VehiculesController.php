@@ -2,65 +2,104 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vehicule;
 use App\Http\Requests\StoreVehiculesRequest;
 use App\Http\Requests\UpdateVehiculesRequest;
-use App\Models\Vehicules;
 
 class VehiculesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher la liste des véhicules.
      */
     public function index()
     {
-        //
+        $vehicules = Vehicule::all();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Liste des véhicules récupérée avec succès',
+            'data' => $vehicules
+        ], 200);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Créer un nouveau véhicule.
      */
-    public function create()
+    public function store(StoreVehiculesRequest $request) // Utiliser StoreVehiculeRequest pour la validation
     {
-        //
+        $vehicule = Vehicule::create($request->validated());
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Véhicule créé avec succès',
+            'data' => $vehicule
+        ], 201);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Afficher les détails d'un véhicule spécifique.
      */
-    public function store(StoreVehiculesRequest $request)
+    public function show($id)
     {
-        //
+        $vehicule = Vehicule::find($id);
+
+        if (!$vehicule) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Véhicule non trouvé',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Détails du véhicule récupérés avec succès',
+            'data' => $vehicule
+        ], 200);
     }
 
     /**
-     * Display the specified resource.
+     * Mettre à jour un véhicule spécifique.
      */
-    public function show(Vehicules $vehicules)
+    public function update(UpdateVehiculesRequest $request, $id) // Utiliser UpdateVehiculeRequest pour la validation
     {
-        //
+        $vehicule = Vehicule::find($id);
+
+        if (!$vehicule) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Véhicule non trouvé',
+            ], 404);
+        }
+
+        // Mise à jour des informations
+        $vehicule->update($request->validated());
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Véhicule mis à jour avec succès',
+            'data' => $vehicule
+        ], 200);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Supprimer un véhicule spécifique.
      */
-    public function edit(Vehicules $vehicules)
+    public function destroy($id)
     {
-        //
-    }
+        $vehicule = Vehicule::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateVehiculesRequest $request, Vehicules $vehicules)
-    {
-        //
-    }
+        if (!$vehicule) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Véhicule non trouvé',
+            ], 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Vehicules $vehicules)
-    {
-        //
+        $vehicule->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Véhicule supprimé avec succès',
+        ], 200);
     }
 }
