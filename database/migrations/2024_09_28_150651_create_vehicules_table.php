@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('nombre_place');
             $table->string('Assurance_vehicule');
             $table->string('couleur');
-            $table->string('photo');
+            $table->string('photo')->nullable();
             $table->timestamps();
             $table->foreign('conducteur_id')->references('id')->on('conducteurs')->onDelete('cascade');
 
