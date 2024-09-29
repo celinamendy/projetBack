@@ -21,8 +21,16 @@ class UpdateVehiculesRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+         // $this->route('vehicule') accède à l'ID du véhicule dans la route
+         return [
+            'marque' => 'sometimes|required|string|max:255',
+            'modele' => 'sometimes|required|string|max:255',
+            'couleur' => 'sometimes|required|string|max:255',
+            'immatriculation' => 'sometimes|required|string|max:255|unique:vehicules,immatriculation,'.$this->route('vehicule'),
+            'conducteur_id' => 'sometimes|required|exists:conducteurs,id',
+            'nombre_place' => 'sometimes|required|integer',
+            'assurance_vehicule' => 'sometimes|required|string|max:255',
+            'photo' => 'sometimes|nullable|string'
         ];
     }
 }

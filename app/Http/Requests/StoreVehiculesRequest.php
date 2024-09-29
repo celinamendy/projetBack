@@ -22,7 +22,14 @@ class StoreVehiculesRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'marque' => 'required|string|max:255',
+            'modele' => 'required|string|max:255',
+            'couleur' => 'required|string|max:255',
+            'immatriculation' => 'required|string|max:255|unique:vehicules,immatriculation',
+            'conducteur_id' => 'required|exists:conducteurs,id',
+            'nombre_place' => 'required|integer',
+            'assurance_vehicule' => 'required|string|max:255',
+            'photo' => 'nullable|string'
         ];
     }
 }
