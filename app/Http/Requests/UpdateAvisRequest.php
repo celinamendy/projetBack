@@ -11,7 +11,7 @@ class UpdateAvisRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateAvisRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'commentaire' => 'sometimes|required|string|max:255',
+            'note' => 'sometimes|required|integer|min:1|max:5',
         ];
     }
 }
