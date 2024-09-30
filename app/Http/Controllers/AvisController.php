@@ -1,66 +1,71 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use App\Models\Avis;
+//use Illuminate\Http\Request;
 use App\Http\Requests\StoreAvisRequest;
 use App\Http\Requests\UpdateAvisRequest;
-use App\Models\Avis;
+
 
 class AvisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $avis = Avis::all();
+        return $this->customJsonResponse("Liste des avis récupérée avec succès", $avis, 200);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreAvisRequest $request)
     {
-        //
+        $avis = new Avis();
+        $avis->fill($request->validated());
+        $avis->save();
+
+        return $this->customJsonResponse("Avis créé avec succès", $avis, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Avis $avis)
+    protected function customJsonResponse($message, $data = null, $statusCode = 200)
     {
-        //
+        return response()->json([
+            'status' => true,
+            'message' => $message,
+            'data' => $data,
+        ], $statusCode);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Avis $avis)
+    public function update(UpdateAvisRequest $request, $id)
     {
-        //
+        $avis = Avis::find($id);
+
+        if (!$avis) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Avis non trouvé',
+            ], 404);
+        }
+
+        $avis->fill($request->validated());
+        $avis->save();
+
+        return $this->customJsonResponse("Avis mis à jour avec succès", $avis, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAvisRequest $request, Avis $avis)
+    public function destroy($id)
     {
-        //
+        $avis = Avis::find($id);
+
+        if (!$avis) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Avis non trouvé',
+            ], 404);
+        }
+
+        $avis->delete();
+
+        return $this->customJsonResponse("Avis supprimé avec succès", null, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Avis $avis)
-    {
-        //
-    }
+
 }
