@@ -29,35 +29,38 @@ class TrajetsController extends Controller
      * Créer un nouveau trajet.
      */
     public function store(Request $request)
-    {
-        try {
-            // Validation des données entrantes
-            $validatedData = $request->validate([
-                'conducteur_id' => 'required|exists:conducteurs,id',
-                'point_depart' => 'required|string|max:255',
-                'point_arrivee' => 'required|string|max:255',
-                'date_heure_depart' => 'required|date_format:Y-m-d H:i:s',
-                'statut' => 'required|string',
-                'vehicule_id' => 'required|exists:vehicules,id',
-                'prix' => 'required|numeric',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Validation échouée',
-                'errors' => $e->errors()
-            ], 422);
-        }
+{
+    try {
+        // Validation des données entrantes
+        $validatedData = $request->validate([
+            'conducteur_id' => 'required|exists:conducteurs,id',
+            'point_depart' => 'required|string|max:255',
+            'point_arrivee' => 'required|string|max:255',
+            'date_depart' => 'required|date_format:Y-m-d',
+            'heure_depart' => 'required|date', // Correction ici            'statut' => 'required|string',
+            'vehicule_id' => 'required|exists:vehicules,id',
+            'prix' => 'required|numeric',
+            'nombre_places' => 'required|numeric',
+        ]);
 
-        // Création du trajet
-        $trajet = Trajet::create($validatedData);
 
+    } catch (\Illuminate\Validation\ValidationException $e) {
         return response()->json([
-            'status' => true,
-            'message' => 'Trajet créé avec succès',
-            'data' => $trajet
-        ], 201);
+            'status' => false,
+            'message' => 'Validation échouée',
+            'errors' => $e->errors()
+        ], 422);
     }
+
+    // Création du trajet
+    $trajet = Trajet::create($validatedData);
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Trajet créé avec succès',
+        'data' => $trajet
+    ], 201);
+}
 
     /**
      * Afficher les détails d'un trajet spécifique.
@@ -99,21 +102,26 @@ class TrajetsController extends Controller
             'conducteur_id' => 'sometimes|required|exists:conducteurs,id',
             'point_depart' => 'sometimes|required|string',
             'point_arrivee' => 'sometimes|required|string',
-            'date_heure_depart' => 'sometimes|required|date',
-            'statut' => 'sometimes|required|in:en cours,terminer,annuler,confirmer',
+            'date_depart' => 'sometimes|required|date',
+            'heure_depart' => 'required|date',
+             'statut' => 'sometimes|required|in:en cours,terminer,annuler,confirmer',
             'vehicule_id' => 'sometimes|required|exists:vehicules,id',
             'prix' => 'sometimes|required|numeric',
+            'nombre_places'=> 'sometimes|required|numeric',
         ]);
+
 
         // Mise à jour des informations
         $trajet->update($request->only(
             'conducteur_id',
             'point_depart',
             'point_arrivee',
-            'date_heure_depart',
+            'date_depart',
+            'heure_depart',
             'statut',
             'vehicule_id',
-            'prix'
+            'prix',
+            'nombre_places'
         ));
 
         return response()->json([

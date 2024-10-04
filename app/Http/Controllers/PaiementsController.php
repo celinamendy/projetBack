@@ -1,66 +1,66 @@
 <?php
 
+// app/Http/Controllers/PassagerController.php
+
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePaiementsRequest;
-use App\Http\Requests\UpdatePaiementsRequest;
-use App\Models\Paiements;
+use App\Models\Passager;
+use Illuminate\Http\Request;
 
-class PaiementsController extends Controller
+class PassagerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $passagers = Passager::all();
+        return response()->json($passagers);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show($id)
     {
-        //
+        $passager = Passager::find($id);
+        if (!$passager) {
+            return response()->json(['message' => 'Passager not found'], 404);
+        }
+        return response()->json($passager);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePaiementsRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'adresse' => 'required|string',
+            'telephone' => 'required|string',
+        ]);
+
+        $passager = Passager::create($request->all());
+        return response()->json($passager, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Paiements $paiements)
+    public function update(Request $request, $id)
     {
-        //
+        $passager = Passager::find($id);
+        if (!$passager) {
+            return response()->json(['message' => 'Passager not found'], 404);
+        }
+
+        $request->validate([
+            'user_id' => 'sometimes|required|exists:users,id',
+            'adresse' => 'sometimes|required|string',
+            'telephone' => 'sometimes|required|string',
+        ]);
+
+        $passager->update($request->all());
+        return response()->json($passager);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Paiements $paiements)
+    public function destroy($id)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePaiementsRequest $request, Paiements $paiements)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Paiements $paiements)
-    {
-        //
+        $passager = Passager::find($id);
+        if (!$passager) {
+            return response()->json(['message' => 'Passager not found'], 404);
+        }
+        $passager->delete();
+        return response()->json(['message' => 'Passager deleted successfully']);
     }
 }
+

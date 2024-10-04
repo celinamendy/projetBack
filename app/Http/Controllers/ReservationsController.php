@@ -2,65 +2,128 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreReservationsRequest;
-use App\Http\Requests\UpdateReservationsRequest;
-use App\Models\Reservations;
+use App\Models\Reservation;
+use Illuminate\Http\Request;
 
 class ReservationsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Afficher la liste des réservations.
      */
     public function index()
     {
-        //
+        $reservations = Reservation::all();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Liste des réservations récupérée avec succès',
+            'data' => $reservations
+        ], 200);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Créer une nouvelle réservation.
      */
-    public function create()
+    public function store(Request $request)
     {
-        //
+        // Validation des données entrantes
+        $request->validate([
+            'user_id' => 'required|exists:users,id', // Vérifiez que c'est la bonne table
+            'trajet_id' => 'required|exists:trajets,id',
+            'date_heure_reservation' => 'required|date', // Remplacez ceci
+            'statut' => 'required|string|max:255',
+        ]);
+    
+        // Création de la réservation avec toutes les données
+        $reservation = Reservation::create([
+            'user_id' => $request->user_id,
+            'trajet_id' => $request->trajet_id,
+            'date_heure_reservation' => $request->date_heure_reservation, // Mettez à jour ici
+            'statut' => $request->statut,
+        ]);
+    
+        return response()->json([
+            'status' => true,
+            'message' => 'Réservation créée avec succès',
+            'data' => $reservation
+        ], 201);
+    }
+    
+    /**
+     * Afficher les détails d'une réservation spécifique.
+     */
+    public function show($id)
+    {
+        $reservation = Reservation::find($id);
+
+        if (!$reservation) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Réservation non trouvée',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Détails de la réservation récupérés avec succès',
+            'data' => $reservation
+        ], 200);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Mettre à jour une réservation spécifique.
      */
-    public function store(StoreReservationsRequest $request)
-    {
-        //
+   public function update(Request $request, $id)
+{
+    $reservation = Reservation::find($id);
+
+    if (!$reservation) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Réservation non trouvée',
+        ], 404);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Reservations $reservations)
-    {
-        //
-    }
+    // Validation des données
+    $request->validate([
+        'user_id' => 'sometimes|required|exists:users,id',
+        'trajet_id' => 'sometimes|required|exists:trajets,id',
+        'date_heure_reservation' => 'sometimes|required|date', // Remplacez ici
+        'statut' => 'sometimes|required|string|max:255',
+    ]);
+
+    // Mise à jour des informations
+    $reservation->update($request->only([
+        'user_id', 'trajet_id', 'date_heure_reservation', 'statut' // Mettez à jour ici
+    ]));
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Réservation mise à jour avec succès',
+        'data' => $reservation
+    ], 200);
+}
+
 
     /**
-     * Show the form for editing the specified resource.
+     * Supprimer une réservation spécifique.
      */
-    public function edit(Reservations $reservations)
+    public function destroy($id)
     {
-        //
-    }
+        $reservation = Reservation::find($id);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReservationsRequest $request, Reservations $reservations)
-    {
-        //
-    }
+        if (!$reservation) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Réservation non trouvée',
+            ], 404);
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Reservations $reservations)
-    {
-        //
+        $reservation->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Réservation supprimée avec succès',
+        ], 200);
     }
 }

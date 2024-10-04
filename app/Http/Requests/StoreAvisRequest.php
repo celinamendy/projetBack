@@ -11,7 +11,7 @@ class StoreAvisRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreAvisRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => 'required|exists:users,id',
+            'trajet_id' => 'required|exists:trajets,id',
+            'commentaire' => 'required|string|max:500',
+            'note' => 'required|integer|min:1|max:5',
+            'date' => 'required|date',
         ];
     }
 }

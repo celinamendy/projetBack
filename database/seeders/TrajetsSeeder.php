@@ -16,20 +16,24 @@ class TrajetsSeeder extends Seeder
             [
                 'point_depart' => 'Hann Bel-Air',
                 'point_arrivee' => 'Yoff',
-                'date_heure_depart' => now()->addDays(1),
+                'date_depart' => now()->addDays(1),
+                'heure_depart'=> now()->addDays(1),
                 'conducteur_id' => 1,
                 'statut' => 'en cours',
                 'vehicule_id' => 1,
-                'prix'=>500 
+                'prix'=>500,
+                'nombre_places'=> 4
             ],
             [
                 'point_depart' => 'dakar Centre',
                 'point_arrivee' => 'Almadies',
-                'date_heure_depart' => now()->addDays(3),
+                'date_depart' => now()->addDays(3),
+                'heure_depart'=> now()->addDays(3),
                 'conducteur_id' => 2,
                 'statut' => 'terminer',
                 'vehicule_id'=>2,
-                'prix'=>500         
+                'prix'=>500,
+                'nombre_places'=> 4
                 ],
         ];
 
