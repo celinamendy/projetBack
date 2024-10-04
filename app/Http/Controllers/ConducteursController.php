@@ -71,6 +71,7 @@ class ConducteursController extends Controller
             'data' => $conducteur
         ]);
     }
+    
 
     /**
      * Mettre à jour les informations d'un conducteur spécifique.

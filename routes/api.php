@@ -24,12 +24,14 @@ Route::post('/login', [ApiController::class, 'login']);
 Route::post('/logout', [ApiController::class, 'logout']);
 Route::post('/refresh-token', [ApiController::class, 'refreshToken']);
 
+
+   // Routes pour Trajets
+   Route::apiResource('trajets', TrajetsController::class);
 // Routes protégées par authentification
 Route::middleware('auth:api')->group(function () {
     // Routes pour Conducteurs
 
-    // Routes pour Trajets
-    Route::apiResource('trajets', TrajetsController::class);
+
 
     // Routes pour Vehicules
     Route::apiResource('vehicules', VehiculesController::class);
@@ -47,7 +49,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('user', UserController::class);
     // Routes pour les passagers
     Route::apiResource('passagers', PassagersController::class);
-   
+
 });
 
 

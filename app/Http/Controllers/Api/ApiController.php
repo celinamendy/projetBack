@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+// use Spatie\Permission\Models\Role;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -70,7 +71,8 @@ class ApiController extends Controller
             'nom' => ['required', 'string', 'max:255'],
             'prenom' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'string', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed']
+            'password' => ['required', 'string', 'min:8'],
+            'type' => ['required'],
         ]);
 
         if ($validator->fails()) {
@@ -83,6 +85,10 @@ class ApiController extends Controller
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
         ]);
+
+         // Assigner le rôle en fonction du type d'utilisateur
+        $role = $request->input('type'); // Le type doit correspondre à un rôle existant
+        $user->assignRole($role); // Assurez-vous que les rôles 'passager' et 'conducteur' existent
 
         return response()->json($user,201);
     }

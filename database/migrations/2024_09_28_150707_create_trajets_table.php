@@ -17,10 +17,12 @@ return new class extends Migration
             $table->unsignedBigInteger('conducteur_id');
             $table->string('point_depart');
             $table->string('point_arrivee');
-            $table->timestamp('date_heure_depart');
+            $table->timestamp('date_depart');
+            $table->timestamp('heure_depart');
             $table->enum('statut', ['en cours', 'terminer', 'annuler', 'confirmer']);
             $table->unsignedBigInteger('vehicule_id');
             $table->decimal('prix', 8, 2);
+            $table->integer('nombre_places');
             $table->timestamps();
 
             // Relations avec les tables 'conducteurs' et 'vehicules'
