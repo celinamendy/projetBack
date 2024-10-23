@@ -17,7 +17,6 @@ return new class extends Migration
             $table->unsignedBigInteger('trajet_id');
             $table->integer('note'); // Assuming note is an integer rating
             $table->text('commentaire')->nullable();
-            $table->timestamp('date');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('trajet_id')->references('id')->on('trajets')->onDelete('cascade');

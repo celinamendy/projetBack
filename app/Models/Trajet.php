@@ -9,7 +9,7 @@ class Trajet extends Model
 {
     use HasFactory;
     protected $guarded = [];
-    
+
     public function conducteur()
     {
         return $this->belongsTo(Conducteur::class);

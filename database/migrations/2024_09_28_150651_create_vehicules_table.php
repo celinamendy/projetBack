@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('marque');
             $table->string('modele');
             $table->string('immatriculation');
-            $table->integer('nombre_place');
-            $table->string('Assurance_vehicule');
             $table->string('couleur');
             $table->string('photo')->nullable();
             $table->timestamps();

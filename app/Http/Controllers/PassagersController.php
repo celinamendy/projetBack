@@ -32,9 +32,8 @@ class PassagersController extends Controller
             'prenom' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
-            'adresse' => 'required|string', 
-            'telephone' => 'required|string', 
-
+            'adresse' => 'required|string',
+            'telephone' => 'required|string|unique:passager,telephone|max:15|regex:/^[0-9-+]{9,15}$/',
         ]);
 
         // Création d'un utilisateur
@@ -58,6 +57,52 @@ class PassagersController extends Controller
             'data' => $passager
         ], 201);
     }
+
+    /**
+ * Récupérer un passager en fonction de l'ID utilisateur.
+ */
+public function getPassagerByUserId($userId)
+{
+    // Trouver le passager en fonction de l'ID utilisateur
+    $passager = Passager::where('user_id', $userId)->with('user.reservations.trajet')->first();
+
+    // Vérifier si le passager existe
+    if (!$passager) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Passager non trouvé'
+        ], 404);
+    }
+
+    // Retourner les informations du passager
+    return response()->json([
+        'status' => true,
+        'message' => 'Passager récupéré avec succès',
+        'data' => $passager
+    ], 200);
+}
+public function getPassagerByAuthenticatedUser()
+{
+    // Récupérer l'utilisateur authentifié
+    $userId = auth()->id();
+
+    // Récupérer le passager correspondant à l'utilisateur
+    $passager = Passager::where('user_id', $userId)->first();
+
+    if (!$passager) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Aucun passager trouvé pour cet utilisateur',
+        ], 404);
+    }
+
+    return response()->json([
+        'status' => true,
+        'message' => 'Passager récupéré avec succès',
+        'data' => $passager,
+    ], 200);
+}
+
 
     /**
      * Afficher les détails d'un passager spécifié.

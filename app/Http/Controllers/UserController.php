@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -30,23 +31,50 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        // Récupérer un utilisateur par son ID
-        $user = User::find($id);
 
-        if (!$user) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Utilisateur non trouvé',
-            ], 404);
-        }
+        // Récupérer l'utilisateur authentifié
+    $user = Auth::user();
 
-        // Retourner les détails de l'utilisateur
+    // Vérifier si l'utilisateur est authentifié
+    if (!$user) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Utilisateur non trouvé',
+        ], 404);
+    }
+
+    // Vérifier si l'utilisateur a le rôle de 'conducteur'
+    if ($user->hasRole('conducteur')) {
+        $conducteur = User::where('id', $user->id)
+                          ->with('conducteur') // Relation 'conducteur' dans le modèle User
+                          ->first();
+
         return response()->json([
             'status' => true,
-            'message' => 'Détails de l\'utilisateur récupérés avec succès',
-            'data' => $user
+            'message' => 'Détails du conducteur récupérés avec succès',
+            'data' => $conducteur
         ], 200);
     }
+
+    // Vérifier si l'utilisateur a le rôle de 'passager'
+    if ($user->hasRole('passager')) {
+        $passager = User::where('id', $user->id)
+                        ->with('passager') // Relation 'passager' dans le modèle User
+                        ->first();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Détails du passager récupérés avec succès',
+            'data' => $passager
+        ], 200);
+    }
+
+    // Si l'utilisateur n'a aucun des rôles spécifiés
+    return response()->json([
+        'status' => false,
+        'message' => 'L\'utilisateur n\'a pas de rôle défini',
+    ], 403);
+}
 
     /**
      * Créer un nouvel utilisateur.
@@ -59,7 +87,7 @@ class UserController extends Controller
             'prenom' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
-            
+
         ]);
 
         // Créer un nouvel utilisateur
@@ -68,7 +96,7 @@ class UserController extends Controller
             'prenom' => $request->prenom,
             'email' => $request->email,
             'password' => Hash::make($request->password),  // Hacher le mot de passe
-            
+
         ]);
 
         return response()->json([
@@ -98,11 +126,11 @@ class UserController extends Controller
             'nom' => 'sometimes|required|string|max:255',
         'prenom' => 'sometimes|required|string|max:255',
             'email' => [
-                'sometimes', 
-                'required', 
-                'string', 
-                'email', 
-                'max:255', 
+                'sometimes',
+                'required',
+                'string',
+                'email',
+                'max:255',
                 Rule::unique('users')->ignore($user->id)
             ],
             'password' => 'sometimes|required|string|min:8|confirmed',
@@ -111,11 +139,11 @@ class UserController extends Controller
         // Mise à jour des informations
         $user->update([
             'nom' => $request->nom ?? $user->nom,  // Utiliser 'nom' au lieu de 'name'
-            'prenom' => $request->prenom ?? $user->prenom,  
+            'prenom' => $request->prenom ?? $user->prenom,
             'email' => $request->email ?? $user->email,
             'password' => $request->password ? Hash::make($request->password) : $user->password,
         ]);
-        
+
 
         return response()->json([
             'status' => true,

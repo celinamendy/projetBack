@@ -26,7 +26,6 @@ class StoreAvisRequest extends FormRequest
             'trajet_id' => 'required|exists:trajets,id',
             'commentaire' => 'required|string|max:500',
             'note' => 'required|integer|min:1|max:5',
-            'date' => 'required|date',
         ];
     }
 }

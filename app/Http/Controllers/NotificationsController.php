@@ -1,12 +1,30 @@
 <?php
 namespace App\Http\Controllers;
 
-use App\Models\Notification; 
+use App\Models\Notification;
 use Illuminate\Http\Request;
+use App\Trait\AvisNotification;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationsController extends Controller
+
 {
+    use AvisNotification;
+    public function getUserNotifications()
+    {
+        // Récupérer l'utilisateur connecté
+        $user = Auth::user();
+
+        // Récupérer les notifications associées à cet utilisateur
+        $notifications = $user->notifications()->orderBy('created_at', 'desc')->get();
+
+        // Retourner les notifications sous forme de JSON
+        return response()->json([
+            'message' => 'Notifications récupérées avec succès',
+            'données' => $notifications,
+            'status' => 200
+        ]);
+    }
     // public function index()
     // {
     //     $userId = Auth::id();
@@ -17,28 +35,28 @@ class NotificationsController extends Controller
     //         'data' => $notifications,
     //     ], 200);
     // }
-    public function index()
-{
-    return $this->getAllNotifications(); 
-}
+//     public function index()
+// {
+//     return $this->getAllNotifications();
+// }
 
-    public function getAllNotifications()
-    {
-        // récuperer toutes les notifications
-        $notifications = Notification:: all();
+    // public function getAllNotifications()
+    // {
+    //     // récuperer toutes les notifications
+    //     $notifications = Notification:: all();
 
-        // Retourner les notifications
-        return response()->json([
-            'status' => true,
-            'data' => $notifications
-        ], 200);
-    }
+    //     // Retourner les notifications
+    //     return response()->json([
+    //         'status' => true,
+    //         'data' => $notifications
+    //     ], 200);
+    // }
 
     public function markAsRead($id)
     {
         $notification = Notification::find($id);
 
-       // if ($notification && $notification->user_id == auth()->id()) 
+       // if ($notification && $notification->user_id == auth()->id())
         if ($notification && $notification->user_id == Auth::id()) {
 
             $notification->statut = 'lue';

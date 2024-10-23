@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('conducteurs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->integer('age'); // Ajout de l'âge du conducteur
+            $table->string('telephone'); // Ajout du numéro de téléphone
             $table->string('permis_conduire');
             $table->string('CIN');
             $table->string('carte_gris');

@@ -3,12 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Conducteur;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject; // Ajoutez cette ligne
-class User extends Authenticatable implements JWTSubject 
+
+class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable, HasRoles;
 
@@ -41,6 +43,29 @@ class User extends Authenticatable implements JWTSubject
             'password' => 'hashed',
         ];
     }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'user_id');  // 'user_id' est la clé étrangère dans les réservations
+    }
+
+    // Relation avec le modèle Conducteur
+    public function conducteur()
+    {
+        return $this->hasOne(Conducteur::class);
+    }
+
+    // Relation avec le modèle Passager
+    public function passager()
+    {
+        return $this->hasOne(Passager::class);
+    }
+    //relation avec notif
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
     public function getJWTIdentifier()
     {
         return $this->getKey();

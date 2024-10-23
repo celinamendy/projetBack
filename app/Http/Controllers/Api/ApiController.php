@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Conducteur;
+use App\Models\Passager;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Exceptions\JWTException;  // Assure-toi que tu importes bien le Controller de base
@@ -72,7 +74,13 @@ class ApiController extends Controller
             'prenom' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'string', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
+            'telephone' => ['nullable', 'string', 'max:15'],
+            'adresse' => ['nullable', 'string'],
             'type' => ['required'],
+            'permis_conduire' => 'nullable|string',
+            'CIN' => 'nullable|string',
+            'carte_gris' => 'nullable|string',
+            'age' => 'required|integer|min:18', // Ex: l'âge minimum pour un conducteur
         ]);
 
         if ($validator->fails()) {
@@ -89,8 +97,19 @@ class ApiController extends Controller
          // Assigner le rôle en fonction du type d'utilisateur
         $role = $request->input('type'); // Le type doit correspondre à un rôle existant
         $user->assignRole($role); // Assurez-vous que les rôles 'passager' et 'conducteur' existent
+        if ($role == 'passager') {
+            $user_id = $user->id ;
+            $passager = Passager::create(['user_id' => $user_id,'telephone'=>$request->input('telephone'),'adresse'=>$request->input('adresse')] );
+            return response()->json([$user, $passager ],201);
 
-        return response()->json($user,201);
+        }elseif ($role == 'conducteur') {
+            $user_id = $user->id ;
+            $conducteur = Conducteur::create(['user_id' => $user_id,'permis_conduire'=>$request->input('permis_conduire'),'CIN'=>$request->input('CIN'),'carte_gris'=>$request->input('carte_gris'),'age'=>$request->input('age'),'telephone'=>$request->input('telephone')] );
+            return response()->json([$user, $conducteur ],201);
+
+        }
+
+
     }
 
     /**

@@ -19,14 +19,12 @@ class AvisSeeder extends Seeder
                 'trajet_id' => 1,
                 'commentaire' => 'Très bon trajet, conducteur agréable.',
                 'note' => 5,
-                'date' => '2024-09-20',
             ],
             [
                 'user_id' => 2,
                 'trajet_id' => 2,
                 'commentaire' => 'Voyage correct mais peut être amélioré.',
                 'note' => 3,
-                'date' => '2024-09-21',
             ],
         ];
 
