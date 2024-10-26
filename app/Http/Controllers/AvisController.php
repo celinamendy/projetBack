@@ -15,6 +15,12 @@ class AvisController extends Controller
         return $this->customJsonResponse("Liste des avis récupérée avec succès", $avis, 200);
     }
 
+// Dans votre contrôleur Laravel
+public function getAvis($trajetId)
+{
+    $avis = Avis::where('trajet_id', $trajetId)->get();
+    return response()->json(['data' => $avis]);
+}
 
     public function store(StoreAvisRequest $request)
     {
@@ -33,6 +39,19 @@ class AvisController extends Controller
             'data' => $data,
         ], $statusCode);
     }
+
+    // Laravel Controller
+public function updateNote(UpdateAvisRequest $request, $avisId)
+{
+    $avis = Avis::find($avisId);
+    if ($avis) {
+        $avis->note = $request->input('note');
+        $avis->save();
+        return response()->json(['message' => 'Note mise à jour avec succès']);
+    }
+    return response()->json(['message' => 'Avis introuvable'], 404);
+}
+
 
     public function update(UpdateAvisRequest $request, $id)
     {

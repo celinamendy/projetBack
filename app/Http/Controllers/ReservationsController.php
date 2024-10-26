@@ -17,6 +17,7 @@ class ReservationsController extends Controller
      */
     public function index()
     {
+        
         $reservations = Reservation::with('trajet')->get(); // Charger les trajets avec les réservations
 
         return response()->json([

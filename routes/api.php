@@ -25,10 +25,14 @@ Route::post('/login', [ApiController::class, 'login']);
 Route::post('/logout', [ApiController::class, 'logout']);
 Route::post('/refresh-token', [ApiController::class, 'refreshToken']);
 
-Route::put('trajets/confirmer/{id}', [TrajetsController::class, 'confirmer']);
 
    // Routes pour Trajets
+   Route::post('/trajets1{id}', [TrajetsController::class, 'update']);
+   Route::put('trajets/confirmer/{id}', [TrajetsController::class, 'confirmer']);
    Route::apiResource('trajets', TrajetsController::class);
+
+//    Route::put ('/trajets{id}', [TrajetsController::class,'update']);
+
 // Routes protégées par authentification
 Route::middleware('auth:api')->group(function () {
     // Routes pour Conducteurs
@@ -39,7 +43,7 @@ Route::middleware('auth:api')->group(function () {
     Route::apiResource('vehicules', VehiculesController::class);
 
     // Routes pour les réservations
-    Route::put('/trajets/{id}/verifier-statut', [TrajetsController::class, 'verifierEtMettreAJourStatut']);
+    // Route::put('/trajets/{id}/verifier-statut', [TrajetsController::class, 'verifierStatutTrajet']);
     Route::apiResource('reservations', ReservationsController::class);
     Route::middleware('auth:api')->get('/passager/{id}/reservations', [ReservationsController::class, 'getReservationsByPassagerId']);
 

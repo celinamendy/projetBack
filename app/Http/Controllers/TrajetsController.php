@@ -89,7 +89,7 @@ public function store(Request $request)
      */
     public function show($id)
     {
-        $trajet = Trajet::find($id)->load(['conducteur.user', 'reservations.user', 'avis.user'] );
+        $trajet = Trajet::find($id)->load(['conducteur.user', 'reservations.user.passager', 'avis.user'] );
 
         if (!$trajet) {
             return response()->json([
@@ -108,9 +108,8 @@ public function store(Request $request)
     /**
      * Mettre à jour un trajet spécifique.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,Trajet $trajet)
     {
-        $trajet = Trajet::find($id);
 
         if (!$trajet) {
             return response()->json([
@@ -122,22 +121,20 @@ public function store(Request $request)
 
     // Validation des données
         $request->validate([
-            'conducteur_id' => 'sometimes|required|exists:conducteurs,id',
-            'point_depart' => 'sometimes|required|string|max:255',
-            'point_arrivee' => 'sometimes|required|string|max:255',
-            'date_depart' => 'sometimes|required|date_format:Y-m-d',
-            'heure_depart' => 'sometimes|required|date_format:H:i',
-            'statut' => 'sometimes|required|in:en cours,terminer,annuler,confirmer',
-            'vehicule_id' => 'sometimes|required|exists:vehicules,id',
-            'prix' => 'sometimes|required|numeric',
-            'nombre_places'=> 'sometimes|required|numeric',
+            // 'point_depart' => 'sometimes|required|string|max:255',
+            // 'point_arrivee' => 'sometimes|required|string|max:255',
+            // 'date_depart' => 'sometimes|required|date_format:Y-m-d',
+            // 'heure_depart' => 'sometimes|required|date_format:H:i',
+            // 'statut' => 'sometimes|required|in:en cours,terminer,annuler,confirmer',
+            // 'vehicule_id' => 'sometimes|required|exists:vehicules,id',
+            // 'prix' => 'sometimes|required|numeric',
+            // 'nombre_places'=> 'sometimes|required|numeric',
         ]);
 
 
 
         // Mise à jour des informations
         $trajet->update($request->only([
-            'conducteur_id',
             'point_depart',
             'point_arrivee',
             'date_depart',
@@ -192,31 +189,6 @@ public function store(Request $request)
 //methode pour verifier les statut de la trajet
 // TrajetController.php
 
-public function verifierStatutTrajet($trajetId)
-{
-    $trajet = Trajet::find($trajetId);
-
-    if (!$trajet) {
-        return response()->json(['message' => 'Trajet non trouvé'], 404);
-    }
-
-    $nombreReservations = $trajet->reservations()->count();
-    $nombrePlaces = $trajet->places;
-
-    // Vérifier si le nombre de réservations correspond au nombre de places
-    if ($nombreReservations >= $nombrePlaces) {
-        $trajet->statut = 'terminé';
-    } else {
-        $trajet->statut = 'en cours';
-    }
-
-    $trajet->save();
-
-    return response()->json([
-        'message' => 'Statut mis à jour',
-        'statut' => $trajet->statut
-    ]);
-}
 
 
 
