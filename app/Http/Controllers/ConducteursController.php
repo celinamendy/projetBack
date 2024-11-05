@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Conducteur;
+use App\Models\Trajet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ConducteursController extends Controller
 {
@@ -32,9 +34,11 @@ class ConducteursController extends Controller
             'prenom' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email',
             'password' => 'required|string|min:8',
+            'telephone' => 'nullable|string|max:15',
             'permis_conduire' => 'required|string',
             'CIN' => 'required|string',
             'carte_gris' => 'required|string',
+            'age' => 'required|integer|min:18',
         ]);
 
         // Création d'un utilisateur
@@ -51,8 +55,9 @@ class ConducteursController extends Controller
             'permis_conduire' => $request->permis_conduire,
             'CIN' => $request->CIN,
             'carte_gris' => $request->carte_gris,
+            'age' => $request->age,
+            'telephone' => $request->telephone,
         ]);
-
         return response()->json([
             'status' => true,
             'message' => 'Conducteur créé avec succès',
@@ -71,7 +76,48 @@ class ConducteursController extends Controller
             'data' => $conducteur
         ]);
     }
-    
+
+    public function getConducteurByUserId()
+    {
+
+       $userIdauthenticated = Auth::user()->id;
+
+       $conducteur = Conducteur::where('user_id', $userIdauthenticated)->get();
+
+        if ($conducteur->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Aucun conducteur trouvé',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'conducteur récupéré avec succès',
+            'data' => $conducteur
+        ], 200);
+    }
+
+    public function getTrajetByconducteurId($id)
+    {
+       $trajets = Trajet::where('conducteur_id', $id)->with('conducteur')->get();
+
+        if ($trajets->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Aucun trajet trouvé pour ce conducteur',
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Liste des trajets récupérée avec succès pour le conducteur',
+            'data' => $trajets
+        ], 200);
+    }
+
+
+
 
     /**
      * Mettre à jour les informations d'un conducteur spécifique.
@@ -109,6 +155,8 @@ class ConducteursController extends Controller
         'permis_conduire' => 'sometimes|string',
         'CIN' => 'sometimes|string',
         'carte_gris' => 'sometimes|string',
+        'telephone' => 'sometimes|integer',
+        'age' => 'sometimes|integer|min:18', // Ex: l'âge minimum pour un conducteur
     ]);
 
     // Mettre à jour les informations de l'utilisateur
@@ -129,6 +177,8 @@ class ConducteursController extends Controller
         'permis_conduire' => $request->input('permis_conduire', $conducteur->permis_conduire),
         'CIN' => $request->input('CIN', $conducteur->CIN),
         'carte_gris' => $request->input('carte_gris', $conducteur->carte_gris),
+        'telephone' => $request->input('telephone', $conducteur->telephone),
+        'age' => $request->input('age', $conducteur->age),
     ]);
 
     return response()->json([
@@ -250,3 +300,4 @@ class ConducteursController extends Controller
 
     // }
 }
+

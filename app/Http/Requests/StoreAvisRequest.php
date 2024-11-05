@@ -24,9 +24,17 @@ class StoreAvisRequest extends FormRequest
         return [
             'user_id' => 'required|exists:users,id',
             'trajet_id' => 'required|exists:trajets,id',
-            'commentaire' => 'required|string|max:500',
-            'note' => 'required|integer|min:1|max:5',
-            'date' => 'required|date',
+            'commentaire' => 'nullable|string|max:500', // Le commentaire est optionnel
+            'note' => 'nullable|in:pour,contre',        // La note est optionnelle et de type enum
         ];
+    }
+
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            if (empty($this->input('note')) && empty($this->input('commentaire'))) {
+                $validator->errors()->add('note', 'Vous devez fournir soit un commentaire, soit une note.');
+            }
+        });
     }
 }

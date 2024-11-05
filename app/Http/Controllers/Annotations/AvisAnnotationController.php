@@ -26,6 +26,37 @@ namespace App\Http\Controllers\Annotations ;
  *
 
  * @OA\GET(
+ *     path="/api/avis/trajet/1",
+ *     summary="getNotes",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 type="object",
+ *                 properties={
+ *                     @OA\Property(property="user_id", type="integer"),
+ *                     @OA\Property(property="trajet_id", type="integer"),
+ *                     @OA\Property(property="commentaire", type="string"),
+ *                     @OA\Property(property="note", type="string"),
+ *                 },
+ *             ),
+ *         ),
+ *     ),
+ *     tags={"Avis"},
+*),
+
+
+ * @OA\GET(
  *     path="/api/avis",
  *     summary="liste des avis",
  *     description="",
@@ -61,12 +92,9 @@ namespace App\Http\Controllers\Annotations ;
  *             @OA\Schema(
  *                 type="object",
  *                 properties={
- *                     @OA\Property(property="id", type="integer"),
  *                     @OA\Property(property="user_id", type="integer"),
  *                     @OA\Property(property="trajet_id", type="integer"),
- *                     @OA\Property(property="note", type="integer"),
  *                     @OA\Property(property="commentaire", type="string"),
- *                     @OA\Property(property="date", type="string"),
  *                 },
  *             ),
  *         ),

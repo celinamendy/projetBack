@@ -18,13 +18,17 @@ class ConducteursSeeder extends Seeder
                'permis_conduire' => '123456789',
                 'CIN' => 'C123456',
                 'carte_gris' => 'GR123456',
-                'user_id' => 1
+                'user_id' => 1,
+                'age' => 28,
+                'telephone' => '0212773156624',
             ],
-            [ 
+            [
                 'permis_conduire' => '987654321',
                 'CIN' => 'C654321',
                 'carte_gris' => 'GR654321',
-                'user_id' => 2
+                'user_id' => 2,
+                'age' => 28,
+                'telephone' => '0212781075151',
 
 
             ],

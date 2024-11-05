@@ -25,8 +25,40 @@ namespace App\Http\Controllers\Annotations ;
 
  *
 
+ * @OA\PUT(
+ *     path="/api/trajets/8/verifier-statut",
+ *     summary="verifierStatutTrajet",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"Trajet"},
+*),
+
+
+ * @OA\PUT(
+ *     path="/api/trajets/confirmer/8",
+ *     summary="confirmTrajet",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"Trajet"},
+*),
+
+
  * @OA\GET(
- *     path="/api/trajets/{id}",
+ *     path="/api/trajets/2",
  *     summary="voir  détail trajet",
  *     description="",
  *         security={
@@ -43,8 +75,25 @@ namespace App\Http\Controllers\Annotations ;
 *),
 
 
+ * @OA\DELETE(
+ *     path="/api/trajets/1",
+ *     summary="detele trajet",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="204", description="Deleted successfully"),
+ * @OA\Response(response="401", description="Unauthorized"),
+ * @OA\Response(response="403", description="Forbidden"),
+ * @OA\Response(response="404", description="Not Found"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"Trajet"},
+*),
+
+
  * @OA\PUT(
- *     path="/api/trajets/{id}",
+ *     path="/api/trajets/1",
  *     summary="Modifier trajet",
  *     description="",
  *         security={
@@ -64,34 +113,11 @@ namespace App\Http\Controllers\Annotations ;
  *             @OA\Schema(
  *                 type="object",
  *                 properties={
- *                     @OA\Property(property="conducteur_id", type="integer"),
- *                     @OA\Property(property="point_depart", type="string"),
- *                     @OA\Property(property="point_arrivee", type="string"),
- *                     @OA\Property(property="date_heure_depart", type="string"),
- *                     @OA\Property(property="statut", type="string"),
- *                     @OA\Property(property="vehicule_id", type="integer"),
- *                     @OA\Property(property="prix", type="integer"),
+ *                     @OA\Property(property="nombre_places", type="string"),
  *                 },
  *             ),
  *         ),
  *     ),
- *     tags={"Trajet"},
-*),
-
-
- * @OA\DELETE(
- *     path="/api/trajets",
- *     summary="detele trajet",
- *     description="",
- *         security={
- *    {       "BearerAuth": {}}
- *         },
- * @OA\Response(response="204", description="Deleted successfully"),
- * @OA\Response(response="401", description="Unauthorized"),
- * @OA\Response(response="403", description="Forbidden"),
- * @OA\Response(response="404", description="Not Found"),
- *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
- * ),
  *     tags={"Trajet"},
 *),
 
@@ -119,8 +145,10 @@ namespace App\Http\Controllers\Annotations ;
  *                     @OA\Property(property="conducteur_id", type="integer"),
  *                     @OA\Property(property="point_depart", type="string"),
  *                     @OA\Property(property="point_arrivee", type="string"),
- *                     @OA\Property(property="date_heure_depart", type="string"),
+ *                     @OA\Property(property="date_depart", type="string"),
+ *                     @OA\Property(property="heure_depart", type="string"),
  *                     @OA\Property(property="statut", type="string"),
+ *                     @OA\Property(property="nombre_places", type="integer"),
  *                     @OA\Property(property="vehicule_id", type="integer"),
  *                     @OA\Property(property="prix", type="integer"),
  *                 },

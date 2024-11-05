@@ -28,8 +28,6 @@ class UpdateVehiculesRequest extends FormRequest
            // 'couleur' => 'sometimes|required|string|max:255',
             //'immatriculation' => 'sometimes|required|string|max:255|unique:vehicules,immatriculation,'.$this->route('vehicule'),
            // 'conducteur_id' => 'sometimes|required|exists:conducteurs,id',
-            //'nombre_place' => 'sometimes|required|integer',
-           // 'assurance_vehicule' => 'sometimes|required|string|max:255',
             //'photo' => 'sometimes|nullable|string'
         ];
     }

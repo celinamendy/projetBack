@@ -25,8 +25,74 @@ namespace App\Http\Controllers\Annotations ;
 
  *
 
+ * @OA\GET(
+ *     path="/api/trajets/conducteur/1",
+ *     summary="getTrajetsByConducteur",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"profil conducteur"},
+*),
+
+
+ * @OA\GET(
+ *     path="/api/conducteurs/2",
+ *     summary="detail",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"profil conducteur"},
+*),
+
+
+ * @OA\GET(
+ *     path="/api/conducteurs",
+ *     summary="conducteurs",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"profil conducteur"},
+*),
+
+
+ * @OA\GET(
+ *     path="/api/getTrajetByconducteurId/1",
+ *     summary="getTrajetByconducteurId",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     @OA\Parameter(in="header", name="Authorisation", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"profil conducteur"},
+*),
+
+
  * @OA\PUT(
- *     path="/api/conducteurs/{id}",
+ *     path="/api/conducteurs/1",
  *     summary="update profil conducteur",
  *     description="",
  *         security={
@@ -50,6 +116,7 @@ namespace App\Http\Controllers\Annotations ;
  *                     @OA\Property(property="prenom", type="string"),
  *                     @OA\Property(property="email", type="string"),
  *                     @OA\Property(property="password", type="string"),
+ *                     @OA\Property(property="telephone", type="string"),
  *                     @OA\Property(property="permis-conduire", type="string"),
  *                     @OA\Property(property="CIN", type="string"),
  *                     @OA\Property(property="carte_gris", type="string"),

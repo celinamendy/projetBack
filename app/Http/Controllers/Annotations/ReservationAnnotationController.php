@@ -25,6 +25,38 @@ namespace App\Http\Controllers\Annotations ;
 
  *
 
+ * @OA\GET(
+ *     path="/api/passager/5/reservations",
+ *     summary="getReservationsByPassagerId",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"Reservation"},
+*),
+
+
+ * @OA\GET(
+ *     path="/api/reservations",
+ *     summary="Liste reservation ",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"Reservation"},
+*),
+
+
  * @OA\POST(
  *     path="/api/reservations",
  *     summary="Ajouter reservation ",
@@ -47,28 +79,12 @@ namespace App\Http\Controllers\Annotations ;
  *                 properties={
  *                     @OA\Property(property="user_id", type="integer"),
  *                     @OA\Property(property="trajet_id", type="integer"),
- *                     @OA\Property(property="date_reservation", type="string"),
- *                     @OA\Property(property="status", type="string"),
+ *                     @OA\Property(property="date_heure_reservation", type="string"),
+ *                     @OA\Property(property="statut", type="string"),
  *                 },
  *             ),
  *         ),
  *     ),
- *     tags={"Reservation"},
-*),
-
-
- * @OA\GET(
- *     path="/api/reservations",
- *     summary="Liste reservation ",
- *     description="",
- *         security={
- *    {       "BearerAuth": {}}
- *         },
- * @OA\Response(response="200", description="OK"),
- * @OA\Response(response="404", description="Not Found"),
- * @OA\Response(response="500", description="Internal Server Error"),
- *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
- * ),
  *     tags={"Reservation"},
 *),
 
@@ -91,7 +107,7 @@ namespace App\Http\Controllers\Annotations ;
 
 
  * @OA\PUT(
- *     path="/api/reservations/{id}",
+ *     path="/api/reservations/2",
  *     summary="Update reservation",
  *     description="",
  *         security={

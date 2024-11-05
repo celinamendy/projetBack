@@ -6,21 +6,20 @@ use App\Models\Notification;
 
 trait AvisNotification
 {
-     /**
-     * Créer une notification lors de la création d'un avis.
-     *
-     * @param  \App\Models\Avis  $avis
-     * @return void
-     */
-    public function createAvisNotification($avis)
-    {
-        // Créer et sauvegarder une notification
-        $notification = new Notification();
-        $notification->user_id = $avis->user_id;
-        $notification->avis_id = $avis->id;
-        $notification->commentaire = $avis->commentaire;
-        $notification->note = $avis->note;
-        $notification->created_at = now();
-        $notification->save();
-    }
+    
+    /**
+    *Envoie une notification personnalisée à un utilisateur.
+            *Cette méthode crée une nouvelle notification pour l'utilisateur spécifié
+            *avec le contenu fourni. Elle utilise la relation entre l'utilisateur et
+            *ses notifications pour l'envoi.*
+            *@param \App\Models\User $user
+            *@param string $content
+            *@return void
+            */
+            public function sendNotification($user, $message){
+                // Création d'une notification pour l'utilisateur avec le contenu fourni
+                $user->notifications()->create(['message' => $message,
+                 // Texte de la notification
+                 ]);
+            }
 }
