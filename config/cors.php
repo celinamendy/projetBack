@@ -17,7 +17,7 @@ return [
 
         'paths' => ['api/*'], // Cible toutes les routes d'API
         'allowed_methods' => ['*'], // Autoriser toutes les méthodes HTTP (GET, POST, PUT, etc.)
-        'allowed_origins' => ['http://localhost:4200'], // Autoriser votre origine front-end Angular (http://localhost:4200)
+        'allowed_origins' => ['*'], // Autoriser votre origine front-end Angular (http://localhost:4200)
         'allowed_origins_patterns' => [],
         'allowed_headers' => ['*'], // Autoriser tous les en-têtes
         'exposed_headers' => [],
