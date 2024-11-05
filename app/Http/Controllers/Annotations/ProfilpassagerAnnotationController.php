@@ -25,8 +25,56 @@ namespace App\Http\Controllers\Annotations ;
 
  *
 
+ * @OA\GET(
+ *     path="/api/passager/user/14",
+ *     summary="getPassagerByUserId",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"profil passager"},
+*),
+
+
+ * @OA\GET(
+ *     path="/api/getPassagerByUserId/14",
+ *     summary="getPassagerByUserId",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"profil passager"},
+*),
+
+
+ * @OA\GET(
+ *     path="/api/passagers",
+ *     summary="liste",
+ *     description="",
+ *         security={
+ *    {       "BearerAuth": {}}
+ *         },
+ * @OA\Response(response="200", description="OK"),
+ * @OA\Response(response="404", description="Not Found"),
+ * @OA\Response(response="500", description="Internal Server Error"),
+ *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
+ * ),
+ *     tags={"profil passager"},
+*),
+
+
  * @OA\PUT(
- *     path="/api/passagers/{id}",
+ *     path="/api/passagers",
  *     summary="Update profil passager",
  *     description="",
  *         security={
@@ -51,6 +99,7 @@ namespace App\Http\Controllers\Annotations ;
  *                     @OA\Property(property="nom", type="string"),
  *                     @OA\Property(property="prenom", type="string"),
  *                     @OA\Property(property="email", type="string"),
+ *                     @OA\Property(property="password", type="string"),
  *                 },
  *             ),
  *         ),

@@ -17,7 +17,7 @@ class ReservationsController extends Controller
      */
     public function index()
     {
-        
+
         $reservations = Reservation::with('trajet')->get(); // Charger les trajets avec les réservations
 
         return response()->json([
@@ -80,47 +80,56 @@ class ReservationsController extends Controller
      * Créer une nouvelle réservation.
      */
     public function store(Request $request)
-    {
-        try {
-            // Création de la réservation avec les données fournies
-            $reservation = Reservation::create($request->all());
+{
+    try {
+        // Validation des données
+        $validatedData = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'trajet_id' => 'required|exists:trajets,id',
+            'date_heure_reservation' => 'required|date',
+            'statut' => 'required|string|max:255'
+        ]);
 
-            // Récupérer le trajet associé à cette réservation
-            $trajet = $reservation->trajet;
+        // Création de la réservation avec les données validées
+        $reservation = Reservation::create($validatedData);
 
-            // Récupérer le conducteur à partir du trajet
-            $conducteur = $trajet ? $trajet->conducteur : null; // Vérifie si le trajet existe
+        // Récupérer le trajet associé à cette réservation
+        $trajet = $reservation->trajet;
 
-            // Envoyer une notification au conducteur, si existant
-            if ($conducteur) {
-                $this->sendNotification($conducteur->user, 'Nouvelle réservation pour votre véhicule');
-            } else {
-                // Gérer le cas où le conducteur est null
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Conducteur non trouvé pour cette réservation.',
-                ], 404);
-            }
+        // Récupérer le conducteur à partir du trajet
+        $conducteur = $trajet ? $trajet->conducteur : null;
 
-            // Récupérer le passager à partir de l'utilisateur
-            $passager = $reservation->user; // On suppose que l'utilisateur qui fait la réservation est le passager
-
-            // Envoyer une notification au passager
-            $this->sendNotification($passager, 'Votre réservation a été confirmée');
-
-            return response()->json([
-                'status' => true,
-                'message' => 'Réservation créée avec succès',
-                'data' => $reservation
-            ], 201);
-        } catch (\Exception $e) {
+        // Envoyer une notification au conducteur si trouvé
+        if ($conducteur) {
+            $this->sendNotification($conducteur->user, 'Nouvelle réservation pour votre véhicule');
+        } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Erreur lors de la création de la réservation',
-                'error' => $e->getMessage()
-            ], 500);
+                'message' => 'Conducteur non trouvé pour cette réservation.',
+            ], 404);
         }
+
+        // Récupérer le passager à partir de l'utilisateur
+        $passager = $reservation->user;
+
+        // Envoyer une notification au passager
+        $this->sendNotification($passager, 'Votre réservation a été confirmée');
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Réservation créée avec succès',
+            'data' => $reservation
+        ], 201);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Erreur lors de la création de la réservation',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
 
     /**
      * Récupérer une réservation spécifique.
@@ -150,10 +159,10 @@ class ReservationsController extends Controller
 
         // Validation des données
         $request->validate([
-            'user_id' => 'sometimes|required|exists:users,id',
-            'trajet_id' => 'sometimes|required|exists:trajets,id',
-            'date_heure_reservation' => 'sometimes|required|date',
-            'statut' => 'sometimes|required|string|max:255',
+            // 'user_id' => 'sometimes|required|exists:users,id',
+            // 'trajet_id' => 'sometimes|required|exists:trajets,id',
+            // 'date_heure_reservation' => 'sometimes|required|date',
+            // 'statut' => 'sometimes|required|string|max:255',
         ]);
 
         // Mise à jour des informations
@@ -167,36 +176,21 @@ class ReservationsController extends Controller
             'data' => $reservation
         ], 200);
     }
-//Fonction pour confirmer
-    // public function confirmer(Request $request, $id)
-    // {
-    //     $reservation = Reservation::find($id);
+    public function confirmReservation($id)
+    {
+        $reservation = Reservation::find($id);
 
-    //     if (!$reservation) {
-    //         return response()->json([
-    //             'status' => false,
-    //             'message' => 'Réservation non trouvée',
-    //         ], 404);
-    //     }
+        if (!$reservation) {
+            return response()->json(['message' => 'Réservation introuvable'], 404);
+        }
 
-    //     // Validation des données
-    //     $request->validate([
-    //         'trajet_id' => 'sometimes|required|exists:trajets,id',
-    //         'statut' => 'sometimes|required|string|max:255',
-    //     ]);
+        $reservation->update(['statut' => 'confirmer']);
+        return response()->json(['message' => 'Réservation confirmer avec succès']);
+    }
 
-    //     // Mise à jour des informations
-    //     $reservation->update($request->only([
-    //          'trajet_id',
-    //          'statut'=>'confirmer'
-    //     ]));
 
-    //     return response()->json([
-    //         'status' => true,
-    //         'message' => 'Réservation mise à jour avec succès',
-    //         'data' => $reservation
-    //     ], 200);
-    // }
+
+    
 
     /**
      * Supprimer une réservation spécifique.

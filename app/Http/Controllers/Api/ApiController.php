@@ -80,7 +80,7 @@ class ApiController extends Controller
             'permis_conduire' => 'nullable|string',
             'CIN' => 'nullable|string',
             'carte_gris' => 'nullable|string',
-            'age' => 'required|integer|min:18', // Ex: l'âge minimum pour un conducteur
+            'age' => 'required|integer|min:18',
         ]);
 
         if ($validator->fails()) {

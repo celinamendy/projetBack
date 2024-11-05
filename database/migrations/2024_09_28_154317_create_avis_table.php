@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('trajet_id');
-            $table->integer('note'); // Assuming note is an integer rating
+            $table->enum('note', ['pour', 'contre'])->nullable(); // Note as ENUM
             $table->text('commentaire')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

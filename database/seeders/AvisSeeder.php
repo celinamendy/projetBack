@@ -18,13 +18,13 @@ class AvisSeeder extends Seeder
                 'user_id' => 1, // Assurez-vous que ces IDs existent
                 'trajet_id' => 1,
                 'commentaire' => 'Très bon trajet, conducteur agréable.',
-                'note' => 5,
+                'note' => 'pour',
             ],
             [
                 'user_id' => 2,
                 'trajet_id' => 2,
                 'commentaire' => 'Voyage correct mais peut être amélioré.',
-                'note' => 3,
+                'note' => 'pour',
             ],
         ];
 

@@ -46,10 +46,21 @@ Route::middleware('auth:api')->group(function () {
     // Route::put('/trajets/{id}/verifier-statut', [TrajetsController::class, 'verifierStatutTrajet']);
     Route::apiResource('reservations', ReservationsController::class);
     Route::middleware('auth:api')->get('/passager/{id}/reservations', [ReservationsController::class, 'getReservationsByPassagerId']);
+    Route::post('/reservations/{reservationId}/confirm', [ReservationsController::class, 'confirmReservation']);
+
 
 
     // Routes pour les avis
     Route::apiResource('avis', AvisController::class);
+    // Route pour récupérer les avis d'un trajet spécifique
+    Route::get('avis/trajet/{trajetId}', [AvisController::class, 'getNotes'])->name('avis.getNotes');
+
+    // Route pour ajouter un avis "pour"
+    Route::post('avis/ajout-pour', [AvisController::class, 'ajoutPour'])->name('avis.ajoutPour');
+
+    // Route pour ajouter un avis "contre"
+    Route::post('avis/ajout-contre', [AvisController::class, 'ajoutContre'])->name('avis.ajoutContre');
+
     Route::post('/reservations/avis', [ReservationsController::class, 'addAvis']);
 
     // Routes pour les notifications

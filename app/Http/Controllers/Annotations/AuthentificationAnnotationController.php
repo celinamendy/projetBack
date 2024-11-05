@@ -49,7 +49,13 @@ namespace App\Http\Controllers\Annotations ;
  *                     @OA\Property(property="prenom", type="string"),
  *                     @OA\Property(property="email", type="string"),
  *                     @OA\Property(property="password", type="string"),
- *                     @OA\Property(property="password_confirmation", type="string"),
+ *                     @OA\Property(property="type", type="string"),
+ *                     @OA\Property(property="telephone", type="string"),
+ *                     @OA\Property(property="age", type="string"),
+ *                     @OA\Property(property="adresse", type="string"),
+ *                     @OA\Property(property="permis_conduire", type="string"),
+ *                     @OA\Property(property="carte_gris", type="string"),
+ *                     @OA\Property(property="CIN", type="string"),
  *                 },
  *             ),
  *         ),
@@ -71,6 +77,17 @@ namespace App\Http\Controllers\Annotations ;
  * @OA\Response(response="403", description="Forbidden"),
  *     @OA\Parameter(in="header", name="User-Agent", required=false, @OA\Schema(type="string")
  * ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="multipart/form-data",
+ *             @OA\Schema(
+ *                 type="object",
+ *                 properties={
+ *                 },
+ *             ),
+ *         ),
+ *     ),
  *     tags={"Authentification "},
 *),
 

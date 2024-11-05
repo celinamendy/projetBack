@@ -23,7 +23,52 @@
         "multipart/form-data"
     ],
     "paths": {
-        "/api/user/{id}": {
+        "/api/user/1": {
+            "get": {
+                "summary": "getUserDetails",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/user/2": {
             "put": {
                 "summary": "Update user",
                 "description": "",
@@ -160,6 +205,60 @@
             }
         },
         "/api/notification": {
+            "post": {
+                "summary": "notificationsend",
+                "description": "",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Notification"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/notifications": {
             "get": {
                 "summary": "Ajouter notification",
                 "description": "",
@@ -256,6 +355,80 @@
                         "type": "string"
                     }
                 ]
+            }
+        },
+        "/api/avis/trajet/1": {
+            "get": {
+                "summary": "getNotes",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Avis"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "user_id": {
+                                        "type": "integer"
+                                    },
+                                    "trajet_id": {
+                                        "type": "integer"
+                                    },
+                                    "commentaire": {
+                                        "type": "string"
+                                    },
+                                    "note": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "example": {
+                                "user_id": 1,
+                                "trajet_id": 1,
+                                "commentaire": "Très bon trajet !",
+                                "note": "pour"
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/avis": {
@@ -359,40 +532,116 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "id": {
-                                        "type": "integer"
-                                    },
                                     "user_id": {
                                         "type": "integer"
                                     },
                                     "trajet_id": {
                                         "type": "integer"
                                     },
-                                    "note": {
-                                        "type": "integer"
-                                    },
                                     "commentaire": {
-                                        "type": "string"
-                                    },
-                                    "date": {
                                         "type": "string"
                                     }
                                 }
                             },
                             "example": {
-                                "id": 1,
                                 "user_id": 1,
                                 "trajet_id": 1,
-                                "note": 5,
-                                "commentaire": "Très bon trajet, conducteur agréable.",
-                                "date": "2024-09-20 00:00:00"
+                                "commentaire": "Très bon trajet, conducteur agréable."
                             }
                         }
                     }
                 }
             }
         },
+        "/api/passager/5/reservations": {
+            "get": {
+                "summary": "getReservationsByPassagerId",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Reservation"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
         "/api/reservations": {
+            "get": {
+                "summary": "Liste reservation ",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Reservation"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            },
             "post": {
                 "summary": "Ajouter reservation ",
                 "description": "",
@@ -456,66 +705,23 @@
                                     "trajet_id": {
                                         "type": "integer"
                                     },
-                                    "date_reservation": {
+                                    "date_heure_reservation": {
                                         "type": "string"
                                     },
-                                    "status": {
+                                    "statut": {
                                         "type": "string"
                                     }
                                 }
                             },
                             "example": {
-                                "user_id": 2,
+                                "user_id": 3,
                                 "trajet_id": 2,
-                                "date_reservation": "2024-09-30",
-                                "status": "confirmer"
+                                "date_heure_reservation": "2024-10-17 10:30:00",
+                                "statut": "confirmer"
                             }
                         }
                     }
                 }
-            },
-            "get": {
-                "summary": "Liste reservation ",
-                "description": "",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Reservation"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
             }
         },
         "/api/reservations/1": {
@@ -572,7 +778,7 @@
                 ]
             }
         },
-        "/api/reservations/{id}": {
+        "/api/reservations/2": {
             "put": {
                 "summary": "Update reservation",
                 "description": "",
@@ -651,7 +857,97 @@
                 }
             }
         },
-        "/api/trajets/{id}": {
+        "/api/trajets/8/verifier-statut": {
+            "put": {
+                "summary": "verifierStatutTrajet",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Trajet"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/trajets/confirmer/8": {
+            "put": {
+                "summary": "confirmTrajet",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Trajet"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/trajets/2": {
             "get": {
                 "summary": "voir  détail trajet",
                 "description": "",
@@ -693,6 +989,60 @@
                         "name": "id",
                         "type": "string"
                     },
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/trajets/1": {
+            "delete": {
+                "summary": "detele trajet",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": "Deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Trajet"
+                ],
+                "parameters": [
                     {
                         "in": "header",
                         "name": "User-Agent",
@@ -753,37 +1103,13 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
-                                    "conducteur_id": {
-                                        "type": "integer"
-                                    },
-                                    "point_depart": {
+                                    "nombre_places": {
                                         "type": "string"
-                                    },
-                                    "point_arrivee": {
-                                        "type": "string"
-                                    },
-                                    "date_heure_depart": {
-                                        "type": "string"
-                                    },
-                                    "statut": {
-                                        "type": "string"
-                                    },
-                                    "vehicule_id": {
-                                        "type": "integer"
-                                    },
-                                    "prix": {
-                                        "type": "integer"
                                     }
                                 }
                             },
                             "example": {
-                                "conducteur_id": 2,
-                                "point_depart": "Guédiawaye",
-                                "point_arrivee": "Dakar",
-                                "date_heure_depart": "2024-09-30 15:00:00",
-                                "statut": "en cours",
-                                "vehicule_id": 2,
-                                "prix": 50
+                                "nombre_places": "6"
                             }
                         }
                     }
@@ -791,58 +1117,6 @@
             }
         },
         "/api/trajets": {
-            "delete": {
-                "summary": "detele trajet",
-                "description": "",
-                "responses": {
-                    "204": {
-                        "description": "Deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Trajet"
-                ],
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "User-Agent",
-                        "type": "string"
-                    }
-                ]
-            },
             "post": {
                 "summary": "Proposer trajet",
                 "description": "",
@@ -909,11 +1183,17 @@
                                     "point_arrivee": {
                                         "type": "string"
                                     },
-                                    "date_heure_depart": {
+                                    "date_depart": {
+                                        "type": "string"
+                                    },
+                                    "heure_depart": {
                                         "type": "string"
                                     },
                                     "statut": {
                                         "type": "string"
+                                    },
+                                    "nombre_places": {
+                                        "type": "integer"
                                     },
                                     "vehicule_id": {
                                         "type": "integer"
@@ -924,11 +1204,13 @@
                                 }
                             },
                             "example": {
-                                "conducteur_id": 1,
-                                "point_depart": "Mermoz",
+                                "conducteur_id": 2,
+                                "point_depart": "yeumbeul",
                                 "point_arrivee": "Dakar",
-                                "date_heure_depart": "2024-09-30 15:00:00",
+                                "date_depart": "2024-10-08",
+                                "heure_depart": "14:30",
                                 "statut": "en cours",
+                                "nombre_places": 4,
                                 "vehicule_id": 2,
                                 "prix": 50
                             }
@@ -981,30 +1263,12 @@
             }
         },
         "/api/vehicules/1": {
-            "delete": {
-                "summary": "detele vehicule",
+            "get": {
+                "summary": "New Request",
                 "description": "",
                 "responses": {
-                    "204": {
-                        "description": "Deleted successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "content": {
-                            "application/json": {
-                                "schema": {},
-                                "example": ""
-                            }
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
+                    "200": {
+                        "description": "OK",
                         "content": {
                             "application/json": {
                                 "schema": {},
@@ -1014,6 +1278,15 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {
                                 "schema": {},
@@ -1032,10 +1305,8 @@
                         "type": "string"
                     }
                 ]
-            }
-        },
-        "/api/vehicules/{id}": {
-            "put": {
+            },
+            "patch": {
                 "summary": "update vehicule",
                 "description": "",
                 "responses": {
@@ -1120,7 +1391,7 @@
                                 "modele": "Civic",
                                 "couleur": "Bleu",
                                 "immatriculation": "DEF456",
-                                "conducteur_id": 1,
+                                "conducteur_id": 2,
                                 "nombre_place": 4,
                                 "assurance_vehicule": "AXA",
                                 "photo": null
@@ -1128,6 +1399,105 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/getVehiculesByConducteurId/3": {
+            "get": {
+                "summary": "GET vehicules by  conducteur ID",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicule"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/vehicules/6": {
+            "delete": {
+                "summary": "detele vehicule",
+                "description": "",
+                "responses": {
+                    "204": {
+                        "description": "Deleted successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Vehicule"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
             }
         },
         "/api/vehicules": {
@@ -1223,6 +1593,11 @@
                         "in": "header",
                         "name": "User-Agent",
                         "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorization",
+                        "type": "string"
                     }
                 ],
                 "requestBody": {
@@ -1231,25 +1606,19 @@
                             "schema": {
                                 "type": "object",
                                 "properties": {
+                                    "conducteur_id": {
+                                        "type": "integer"
+                                    },
                                     "marque": {
                                         "type": "string"
                                     },
                                     "modele": {
                                         "type": "string"
                                     },
-                                    "couleur": {
-                                        "type": "string"
-                                    },
                                     "immatriculation": {
                                         "type": "string"
                                     },
-                                    "conducteur_id": {
-                                        "type": "integer"
-                                    },
-                                    "nombre_place": {
-                                        "type": "integer"
-                                    },
-                                    "assurance_vehicule": {
+                                    "couleur": {
                                         "type": "string"
                                     },
                                     "photo": {
@@ -1259,13 +1628,11 @@
                                 }
                             },
                             "example": {
-                                "marque": "Toyota",
-                                "modele": "Yaris",
-                                "couleur": "Rouge",
-                                "immatriculation": "ABC123",
                                 "conducteur_id": 1,
-                                "nombre_place": 5,
-                                "assurance_vehicule": "AXA",
+                                "marque": "KIA",
+                                "modele": "Civic",
+                                "immatriculation": "DEF456",
+                                "couleur": "Bleu",
                                 "photo": null
                             }
                         }
@@ -1273,7 +1640,140 @@
                 }
             }
         },
-        "/api/passagers/{id}": {
+        "/api/passager/user/14": {
+            "get": {
+                "summary": "getPassagerByUserId",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "profil passager"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/getPassagerByUserId/14": {
+            "get": {
+                "summary": "getPassagerByUserId",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "profil passager"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/passagers": {
+            "get": {
+                "summary": "liste",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "profil passager"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            },
             "put": {
                 "summary": "Update profil passager",
                 "description": "",
@@ -1341,22 +1841,211 @@
                                     },
                                     "email": {
                                         "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
                                     }
                                 }
                             },
                             "example": {
                                 "adresse": "liberté 6",
                                 "telephone": "783156624",
-                                "nom": "diop",
-                                "prenom": "fatou bintou",
-                                "email": "fatoubintou.diop@example.com"
+                                "nom": "ndiaye",
+                                "prenom": "tima",
+                                "email": "tima.ndiaye@gmail.com",
+                                "password": "Password@123"
                             }
                         }
                     }
                 }
             }
         },
-        "/api/conducteurs/{id}": {
+        "/api/trajets/conducteur/1": {
+            "get": {
+                "summary": "getTrajetsByConducteur",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "profil conducteur"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/conducteurs/2": {
+            "get": {
+                "summary": "detail",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "profil conducteur"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/conducteurs": {
+            "get": {
+                "summary": "conducteurs",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "profil conducteur"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/getTrajetByconducteurId/1": {
+            "get": {
+                "summary": "getTrajetByconducteurId",
+                "description": "",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "example": ""
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "profil conducteur"
+                ],
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "User-Agent",
+                        "type": "string"
+                    },
+                    {
+                        "in": "header",
+                        "name": "Authorisation",
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/api/conducteurs/1": {
             "put": {
                 "summary": "update profil conducteur",
                 "description": "",
@@ -1422,6 +2111,9 @@
                                     "password": {
                                         "type": "string"
                                     },
+                                    "telephone": {
+                                        "type": "string"
+                                    },
                                     "permis-conduire": {
                                         "type": "string"
                                     },
@@ -1434,13 +2126,14 @@
                                 }
                             },
                             "example": {
-                                "nom": "cisse",
-                                "prenom": "mbom's",
-                                "email": "mbom.cisse@example.com",
-                                "password": "password",
-                                "permis-conduire": "NouveauNumero",
-                                "CIN": "NouveauCIN",
-                                "carte_gris": "NouvelleCarteGris"
+                                "nom": "kane",
+                                "prenom": "samba",
+                                "email": "samba.kane@gmail.com",
+                                "password": "Password@123",
+                                "telephone": "786548596",
+                                "permis-conduire": "123456",
+                                "CIN": "1019908745690",
+                                "carte_gris": "52136"
                             }
                         }
                     }
@@ -1517,17 +2210,41 @@
                                     "password": {
                                         "type": "string"
                                     },
-                                    "password_confirmation": {
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "telephone": {
+                                        "type": "string"
+                                    },
+                                    "age": {
+                                        "type": "string"
+                                    },
+                                    "adresse": {
+                                        "type": "string"
+                                    },
+                                    "permis_conduire": {
+                                        "type": "string"
+                                    },
+                                    "carte_gris": {
+                                        "type": "string"
+                                    },
+                                    "CIN": {
                                         "type": "string"
                                     }
                                 }
                             },
                             "example": {
-                                "nom": "Amina",
-                                "prenom": "Ndiaye",
-                                "email": "anna.ndieye@gmail.com",
-                                "password": "password",
-                                "password_confirmation": "password"
+                                "nom": "kane",
+                                "prenom": "samba",
+                                "email": "samba.kane@gmail.com",
+                                "password": "Password@123",
+                                "type": "conducteur",
+                                "telephone": "758469231",
+                                "age": "30",
+                                "adresse": "Medina",
+                                "permis_conduire": "45879",
+                                "carte_gris": "xwsa4",
+                                "CIN": "11991023654"
                             }
                         }
                     }
@@ -1585,7 +2302,18 @@
                         "name": "User-Agent",
                         "type": "string"
                     }
-                ]
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {}
+                            },
+                            "example": {}
+                        }
+                    }
+                }
             }
         },
         "/api/login": {
@@ -1655,8 +2383,8 @@
                                 }
                             },
                             "example": {
-                                "email": "sagna.moussa@gmail.com",
-                                "password": "password"
+                                "email": "csstalla.ext@simplon.co",
+                                "password": "Password@123"
                             }
                         }
                     }
